@@ -59,7 +59,9 @@ ul{
   min-height:1rem;
   width:2rem;
 }
-
+.inactive{
+  opacity:.7;
+}
 .invisible{
   visibility: hidden;
 }
@@ -88,9 +90,9 @@ ul{
     padding:0 1rem;
     border:1px solid mediumorchid;
     margin:2px;
-    &.in-use{
-      border-color:gray;
-      color:gray;
+    &.inactive{
+      border: 1px dotted;
+
     }
   }
 }

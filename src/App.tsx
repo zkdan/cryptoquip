@@ -1,49 +1,77 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useReducer } from 'react'
 import createCypher, {alphabet} from './utils'
 import './App.css'
 
 interface ILetterContainer{
   letter:string;
   replacement:string;
-  select:(value:string, origin:string) => void;
+  select:(value:string) => void;
   selected:boolean;
 }
 const LetterContainer = ({letter, replacement, select, selected}:ILetterContainer) => {
   return (
     <li 
-    onClick={()=>select(letter, 'quip')} 
+    onClick={()=>select(letter)} 
     className={selected ? 'highlight' : 'normal'}>
       <span className={replacement === '*'? 'invisible' : 'visible' } >{replacement}</span>
-      <span>{letter}</span>
+      <span className={replacement === '*'? 'active':'inactive'}>{letter}</span>
     </li>
   )
 }
+interface IAction{
+  [key:string]:string
+}
 
+function reducer(state:IAction, action:IAction){
+  if (action.type === 'create_pair') {
+    // if it exists already, toggle it
+    if(state[action.quipLetter] === action.target){
+      action.target = ''
+    }
+    return {
+      ...state,
+      [action.quipLetter]: action.target
+    };
+  } 
+  throw Error('Unknown action.')
+}
 function App() {
+  const [state, dispatch] = useReducer(reducer, {});
   const [quip, setQuip] = useState([]);
-  const [lettersInUse, setLettersInUse] = useState([]);
-  const [poolLetter, setPoolLetter] = useState('');
   const [quipLetter, setQuipLetter] = useState('');
 
   useEffect(()=>{
-    fetch(`https://api.quotable.io/random?maxLength=38`)
+    fetch('https://api.quotable.io/random?maxLength=38')
     .then(res =>res.json())
     .then(res => {
+      console.log(res.content)
       const quipArray = createCypher(res.content).toLowerCase().split('');
       setQuip(quipArray);
     })
   }, [])
 
-  const selectLetter =(value:string, origin:string)=>{
-    if(origin === 'quip'){
+  const selectQuipLetter =(value:string)=>{
+    if(!quipLetter){
       setQuipLetter(value);
-
+    } 
+    if(quipLetter ===value){
+      setQuipLetter('');
     }
-    if(origin === 'alphabet'){
-      if(quipLetter){
-        setPoolLetter(value);
-        // setLettersInUse(x => [...x, {orig:quipLetter, target:value}])
-      }
+     else{
+      setQuipLetter(value)
+     }
+  }
+
+  const selectAlphabetLetter =(value:string)=>{
+    if(quipLetter){
+      // if(quipLetter === value){
+      //   alert('A letter will never be replaced with itself.')
+      // }
+      dispatch({
+        type:'create_pair', 
+        quipLetter, 
+        target:value
+      })
     }
   }
   return (
@@ -56,17 +84,18 @@ function App() {
           return <LetterContainer 
                     selected={quipLetter===letter}
                     letter={letter} 
-                    replacement={'*'} 
-                    select={selectLetter}/>
+                    replacement={state[letter] || '*'}
+                    select={selectQuipLetter}/>
         }
         })}
       </ul>
     
       <ul className="alphabet">
         {alphabet.map((letter:string) =>{
-          const inUse = lettersInUse.includes(letter);
-          return <li key={letter} onClick={()=>selectLetter(letter, 
-            'alphabet')} className={inUse ? 'in-use': 'not'}>{letter}</li>
+          const inUse = Object.values(state).includes(letter);
+          return <li key={letter} 
+                    onClick={()=>selectAlphabetLetter(letter)} 
+                    className={inUse || quipLetter === letter ? 'inactive': 'active'}>{letter}</li>
         })}
       </ul>
     </>

@@ -4,7 +4,7 @@ interface IStringArr {
   [key: string]: string;
 } 
 
-const createCypher = (phrase:string) =>{
+const createCypher = (phrase:string):string =>{
   const arrayedPhrase = phrase.toLowerCase().split('');
   const uniqueLetters = Array.from(new Set(arrayedPhrase)).filter(item => alphabet.includes(item));
   const analogues = createAnalogues(uniqueLetters, alphabet);
