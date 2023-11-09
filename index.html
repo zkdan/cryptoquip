@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cryptoquippery</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- <script>
+      const alphabet = [ "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+      const createCypher = (phrase) =>{
+        const arrayedPhrase = phrase.toLowerCase().split('');
+        const uniqueLetters = Array.from(new Set(arrayedPhrase)).filter(item => alphabet.includes(item));
+        const analogues = createAnalogues(uniqueLetters, alphabet);
+        // pair the letters up
+        const quip =  arrayedPhrase.map(char =>{
+          if(alphabet.includes(char) === false){
+            return char
+          } else {
+            return analogues[char]
+          }
+        });
+      
+// console.log(`
+// ${quip.join('')}
+// ${phrase}
+// `)  
+// return cyphered version
+  return quip.join('') 
+}
+//have uniqueLettters and analogues
+// need ot go through original phrase and find each letter in unique letters and in analogues
+const createPairings = (orig, analogues) =>{
+  return orig.reduce((acc, curr, i) =>{
+      if(acc[curr]){
+      return acc
+    } else {
+      acc[curr] = analogues[i]
+    }
+    return acc
+  }, {})
+}
+
+const createAnalogues = (orig, pool)=>{
+  let localPool = pool;
+  const randomLetters =  orig.map(letter => {
+    const targetLetter = chooseLetter(letter, localPool);
+    localPool = exciseLetter(targetLetter,  localPool);
+    return targetLetter
+  })
+
+  return createPairings(orig, randomLetters)
+}
+
+const exciseLetter =(letter, arr)=>{
+  if(arr.indexOf(letter) === 0){
+    arr.shift();
+    return arr
+  } else {
+    const firstHalf = arr.slice(0, arr.indexOf(letter));
+    const secondHalf = arr.slice(arr.indexOf(letter)+1)
+    const newArr = [...firstHalf, ...secondHalf]
+    return newArr
+  }
+}
+
+const chooseLetter =(orig, pool)=>{
+  const num = getRandomNumber(pool);
+  if(pool[num] === orig){
+    return chooseLetter(orig, pool)
+  } 
+  return pool[num]
+}
+
+const getRandomNumber =(arr)=>{
+ return Math.floor(Math.random() * arr.length)
+}
+
+    </script> -->
+  </body>
+</html>
