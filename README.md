@@ -1,5 +1,5 @@
 # Cryptoquotes
-An NYT-inspired game for solving a substitution cypher. Each letter stands for a different one in the alphabet.
+An NYT-inspired word game that allows players to solve a monoalphabetic substitution cypher to reveal a quote from the <a href="https://github.com/lukePeavey/quotable#quotable">Quotable API</a>.
 
 ## To do
 - localStorage/cookies for one quip a day per user
@@ -13,3 +13,4 @@ An NYT-inspired game for solving a substitution cypher. Each letter stands for a
 - ~~Toggle pairing of alphabet letter when tapped~~
 - ~~Line breaks at spaces, not inside words~~
 - ~~useReducer to coordinate letters chosen~~
+
