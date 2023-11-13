@@ -2,52 +2,16 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
 
 ul{
   margin: 0;
+  padding:0;
   list-style-type: none;
   display: flex;
   font-weight: bold;
   font-size: 2rem;
-  display: flex;
   font-variant: small-caps;
   li{
     display: flex;
@@ -55,10 +19,6 @@ ul{
   }
 }
 
-.space{
-  min-height:1rem;
-  width:2rem;
-}
 .inactive{
   opacity:.7;
 }
@@ -69,13 +29,15 @@ ul{
   visibility: visible;
 }
 
-.quip{
+ul.quip{
   font-size: 2rem;
   flex-wrap:wrap;
   li{
-    min-width:5rem;
     display: flex;
-    border:1px solid white;
+    text-align: center;
+  }
+  ul {
+    margin-right:1rem
   }
 }
 .highlight{
@@ -83,7 +45,6 @@ ul{
 }
 .alphabet{  
   display: flex;
-
   justify-content:center;
   flex-wrap: wrap;
   li {

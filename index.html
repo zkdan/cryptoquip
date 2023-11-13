@@ -6,30 +6,46 @@
     <title>Cryptoquippery</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      
+    </div>
     <script type="module" src="/src/main.tsx"></script>
 
-    <!-- <script>
+    <script>
       const alphabet = [ "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
       const createCypher = (phrase) =>{
         const arrayedPhrase = phrase.toLowerCase().split('');
         const uniqueLetters = Array.from(new Set(arrayedPhrase)).filter(item => alphabet.includes(item));
         const analogues = createAnalogues(uniqueLetters, alphabet);
         // pair the letters up
-        const quip =  arrayedPhrase.map(char =>{
+        const quote =  arrayedPhrase.map(char =>{
           if(alphabet.includes(char) === false){
             return char
           } else {
             return analogues[char]
           }
         });
-      
+// go through each letter, add it to an array, set that array as 0 in the acc array
+// if it's not a letter, push to the next place in the array
+    const c =  phrase.split(' ').map(word =>{
+          return word.split('').map(char =>{
+            if(alphabet.includes(char) === false){
+              return char
+            } else {
+              return analogues[char]
+            }
+          })
+        });
+        
+        console.log(c)
 // console.log(`
 // ${quip.join('')}
 // ${phrase}
 // `)  
+
 // return cyphered version
-  return quip.join('') 
+  // return quote.join('') 
+  return c
 }
 //have uniqueLettters and analogues
 // need ot go through original phrase and find each letter in unique letters and in analogues
@@ -79,6 +95,6 @@ const getRandomNumber =(arr)=>{
  return Math.floor(Math.random() * arr.length)
 }
 
-    </script> -->
+    </script>
   </body>
 </html>

@@ -4,21 +4,32 @@ interface IStringArr {
   [key: string]: string;
 } 
 
-const createCypher = (phrase:string):string =>{
+const createCypher = (phrase:string):string[][] =>{
   const arrayedPhrase = phrase.toLowerCase().split('');
   const uniqueLetters = Array.from(new Set(arrayedPhrase)).filter(item => alphabet.includes(item));
   const analogues = createAnalogues(uniqueLetters, alphabet);
 
-  const quip =  arrayedPhrase.map((char:string) =>{
-    if(alphabet.includes(char) === false){
-      return char
-    } else {
-      return analogues[char]
-    }
+  // const quip =  arrayedPhrase.map((char:string) =>{
+  //   if(alphabet.includes(char) === false){
+  //     return char
+  //   } else {
+  //     return analogues[char]
+  //   }
+  // });
+  const c =  phrase.split(' ').map(word =>{
+    return word.split('').map(char =>{
+      if(alphabet.includes(char) === false){
+        return char
+      } else {
+        return analogues[char]
+      }
+    })
   });
- 
 // return cyphered version
-return quip.join('') 
+// console.log(quip)
+
+// return quip.join('') 
+  return c
 }
 //have uniqueLettters and analogues
 // need ot go through original phrase and find each letter in unique letters and in analogues

@@ -1,23 +1,7 @@
+import './App.css'
 import { useState, useEffect, useReducer } from 'react'
 import createCypher, {alphabet} from './utils'
-import './App.css'
-
-interface ILetterContainer{
-  letter:string;
-  replacement:string;
-  select:(value:string) => void;
-  selected:boolean;
-}
-const LetterContainer = ({letter, replacement, select, selected}:ILetterContainer) => {
-  return (
-    <li 
-    onClick={()=>select(letter)} 
-    className={selected ? 'highlight' : 'normal'}>
-      <span className={replacement === '*'? 'invisible' : 'visible' } >{replacement}</span>
-      <span className={replacement === '*'? 'active':'inactive'}>{letter}</span>
-    </li>
-  )
-}
+import LetterContainer from './LetterContainer'
 interface IAction{
   [key:string]:string
 }
@@ -33,31 +17,33 @@ function reducer(state:IAction, action:IAction){
       [action.quipLetter]: action.target
     };
   } 
+  if(action.type === 'clear'){
+    return {}
+  }
   throw Error('Unknown action.')
 }
 function App() {
   const [state, dispatch] = useReducer(reducer, {});
-  const [quip, setQuip] = useState([]);
-  const [quipLetter, setQuipLetter] = useState('');
+  const [quip, setQuip] = useState<string[][]>([]);
+  const [quipLetter, setQuipLetter] = useState<string>('');
 
   useEffect(()=>{
     fetch('https://api.quotable.io/random?maxLength=38')
     .then(res =>res.json())
     .then(res => {
-      console.log(res.content)
-      const quipArray = createCypher(res.content).toLowerCase().split('');
-      setQuip(quipArray);
+      const quip = createCypher(res.content);
+      setQuip(quip);
     })
   }, [])
 
   const selectQuipLetter =(value:string)=>{
-    if(!quipLetter){
-      setQuipLetter(value);
-    } 
-    if(quipLetter ===value){
+    // if(!quipLetter){
+    //   setQuipLetter(value);
+    // } 
+    if(quipLetter === value){
       setQuipLetter('');
     }
-     else{
+     else {
       setQuipLetter(value)
      }
   }
@@ -74,20 +60,24 @@ function App() {
       })
     }
   }
+  const reset =()=>{
+    dispatch({type:'clear'})
+    setQuipLetter('');
+  }
   return (
     <>
       <ul className="quip"> 
-      { quip.map(letter =>{
-        if(alphabet.includes(letter) === false){
-          return <li className="space"></li>
-        } else {
+      {quip.map(word=>{
+        const letters = word.map((letter)=>{
           return <LetterContainer 
-                    selected={quipLetter===letter}
-                    letter={letter} 
+                    letter={letter.toLowerCase()} 
                     replacement={state[letter] || '*'}
+                    selected={quipLetter===letter}
                     select={selectQuipLetter}/>
-        }
-        })}
+        })
+        return <ul>{letters}</ul>
+      })
+      }
       </ul>
     
       <ul className="alphabet">
@@ -98,6 +88,7 @@ function App() {
                     className={inUse || quipLetter === letter ? 'inactive': 'active'}>{letter}</li>
         })}
       </ul>
+      <button onClick={reset}>Clear all</button>
     </>
   )
 }
