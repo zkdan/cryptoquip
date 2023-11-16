@@ -2,6 +2,7 @@ import './App.css'
 import { useState, useEffect, useReducer } from 'react'
 import createCypher, {alphabet} from './utils'
 import LetterContainer from './LetterContainer'
+import Modal from './Modal';
 interface IAction{
   [key:string]:string
 }
@@ -26,7 +27,8 @@ function App() {
   const [state, dispatch] = useReducer(reducer, {});
   const [quip, setQuip] = useState<string[][]>([]);
   const [quipLetter, setQuipLetter] = useState<string>('');
-
+  const [modal, setModal] = useState(true);
+  
   useEffect(()=>{
     fetch('https://api.quotable.io/random?maxLength=38')
     .then(res =>res.json())
@@ -64,8 +66,23 @@ function App() {
     dispatch({type:'clear'})
     setQuipLetter('');
   }
+  const closeModal=()=>{
+    setModal(false);
+  }
   return (
     <>
+    {modal && <Modal close={closeModal}>
+      <p>This is a subsitution cypher. For example: A in the puzzle might stand for G in the actual quotation.</p>
+      <ul>
+      <LetterContainer 
+                    letter={"A"} 
+                    replacement={"G"}
+                    selected={false}
+                    select={()=>{}}/>
+      </ul>
+      <p>Each letter is replaced by one other letter (ie. if A replaces G, A will not replace any other letter).</p>
+      <p>Click a letter in the puzzle to propose a replacement. Click a second time to change your mind.</p>
+    </Modal>}
       <ul className="quip"> 
       {quip.map(word=>{
         const letters = word.map((letter)=>{
