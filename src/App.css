@@ -39,9 +39,11 @@ ul.quip{
     margin-right:1rem
   }
 }
+
 .highlight{
-  color:pink;
+  color:mediumorchid;
 }
+
 .alphabet{  
   display: flex;
   justify-content:center;
