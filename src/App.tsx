@@ -1,6 +1,6 @@
 import './App.css'
 import { useState, useEffect, useReducer } from 'react'
-import createCypher, {alphabet, getRandomNumber, invert, IAlphabet} from './utils'
+import createCypher, {alphabet, getRandomNumber, invert, IAlphabet, IStringArr} from './utils'
 import Author from './Author';
 import LetterContainer from './LetterContainer'
 
@@ -8,35 +8,28 @@ interface IAction{
   type: 'hint' | 'create_pair'| 'clear' | 'solve';  
   quipLetter?:string;
   target?:string;
-  puzzleKey?:object;
+  puzzleKey?:IStringArr;
 }
 
-interface IState extends IAlphabet{
-
-}
-
-function reducer(state:IState, action:IAction){
+function reducer(state:IAlphabet, action:IAction){
   if (action.type === 'create_pair') {
-    // if it exists already, toggle it
-    if(action.target === state[action.quipLetter]){
-      action.target = ''
-    }
     return {
       ...state,
-      [action.quipLetter]: action.target
+      [action.quipLetter!]: action.target
     };
   }
 
   if(action.type === 'hint'){
     return {
       ...state,
-      [action.quipLetter]: action.target
+      [action.quipLetter!]: action.target
     };
   } 
   // the puzzleKey is backwards for the state
   if(action.type === 'solve'){
-    // return {...state}
-    return invert(action.puzzleKey)
+    if(action.puzzleKey){
+      return invert(action.puzzleKey)
+    }
   }
 
   if(action.type === 'clear'){
@@ -62,9 +55,6 @@ function App() {
     })
   }, [])
 
-  const checkQuip =()=>{
-
-  }
   const selectQuipLetter =(value:string)=>{
 
     if(quipLetter === value){
@@ -72,14 +62,18 @@ function App() {
     }
      else {
       setQuipLetter(value);
-      checkQuip();
      }
   }
 
   const selectAlphabetLetter =(value:string)=>{
+    
     if(quipLetter === value){
       alert('A letter cannot replace itself.')
     } else if(quipLetter){
+      // if it's already chosen, toggle it
+      if(value === state[quipLetter]){
+        value = ''
+      }
       dispatch({
         type:'create_pair', 
         quipLetter, 

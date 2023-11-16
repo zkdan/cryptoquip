@@ -1,6 +1,6 @@
 export const alphabet = [ "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
-interface IStringArr {
+export interface IStringArr {
  [key:string]:string
 } 
 
@@ -96,9 +96,7 @@ const chooseLetter =(orig:string, pool:string[]):string =>{
     return pool[num]
 }
 
-export const invert =(obj:{
-  [key:string]:string
-})=>{ 
+export const invert =(obj:IStringArr)=>{ 
   const retobj:{
     [key:string]:string
   } = {}; 
