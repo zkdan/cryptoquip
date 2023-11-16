@@ -1,48 +1,70 @@
 export const alphabet = [ "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
-interface IStringArr {
-  [key: string]: string;
+export interface IStringArr {
+ [key:string]:string
 } 
 
-const createCypher = (phrase:string):string[][] =>{
+export interface IAlphabet{
+  a?:string;
+  b?:string;
+  c?:string;
+  d?:string;
+  e?:string;
+  f?:string;
+  g?:string;
+  h?:string;
+  i?:string;
+  j?:string;
+  k?:string;
+  l?:string;
+  m?:string;
+  n?:string;
+  o?:string;
+  p?:string;
+  q?:string;
+  r?:string;
+  s?:string;
+  t?:string;
+  u?:string;
+  v?:string;
+  w?:string;
+  x?:string;
+  y?:string;
+  z?:string;
+}
+
+const createCypher = (phrase:string):[string[][], IAlphabet] =>{
   const arrayedPhrase = phrase.toLowerCase().split('');
   const uniqueLetters = Array.from(new Set(arrayedPhrase)).filter(item => alphabet.includes(item));
-  const analogues = createAnalogues(uniqueLetters, alphabet);
+  
+  const analogues:IStringArr = createAnalogues(uniqueLetters, alphabet);
 
-  // const quip =  arrayedPhrase.map((char:string) =>{
-  //   if(alphabet.includes(char) === false){
-  //     return char
-  //   } else {
-  //     return analogues[char]
-  //   }
-  // });
-  const c =  phrase.split(' ').map(word =>{
-    return word.split('').map(char =>{
-      if(alphabet.includes(char) === false){
-        return char
-      } else {
+  const cryptoquote =  phrase.split(' ').map(word =>{
+    return word.toLowerCase().split('').map(char =>{
+      if(alphabet.includes(char)){
         return analogues[char]
+      } else {
+        return char
       }
     })
   });
-// return cyphered version
-// console.log(quip)
 
-// return quip.join('') 
-  return c
+  return [cryptoquote, analogues]
 }
-//have uniqueLettters and analogues
-// need ot go through original phrase and find each letter in unique letters and in analogues
+// have uniqueLettters and analogues
+// need to go through original phrase and find each letter in unique letters and in analogues
 const createPairings = (orig:string[], analogues:string[]) =>{
-  return orig.reduce((acc:IStringArr, curr, i) =>{
-      if(acc[curr]){
+  const pairs = orig.reduce((acc:IStringArr, curr, i) =>{
+    if(acc[curr]){
       return acc
     } else {
       acc[curr] = analogues[i]
     }
     return acc
   }, {})
+  return pairs
 }
+
 
 const createAnalogues = (orig:string[], pool:string[])=>{
   let localPool = pool;
@@ -74,7 +96,16 @@ const chooseLetter =(orig:string, pool:string[]):string =>{
     return pool[num]
 }
 
-const getRandomNumber =(arr:string[])=>{
+export const invert =(obj:IStringArr)=>{ 
+  const retobj:{
+    [key:string]:string
+  } = {}; 
+  for(const key in obj){ 
+    retobj[obj[key]] = key; 
+  } 
+  return retobj; 
+} 
+export const getRandomNumber =(arr:string[] | string[][]):number=>{
   return Math.floor(Math.random() * arr.length)
 }
 

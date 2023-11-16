@@ -3,7 +3,7 @@ An NYT-inspired word game that allows players to solve a monoalphabetic substitu
 
 ## To do
 - localStorage/cookies for one quip a day per user
-- Error handling (same letter chosen, )
+- Error handling (same letter chosen)
 - Alert for win
 - Add author of quote
 - Click off to deselect quip letter
