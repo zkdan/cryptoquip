@@ -1,9 +1,8 @@
 #root {
-  max-width: 1280px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 2rem;
 }
-
 
 ul{
   margin: 0;
@@ -40,9 +39,11 @@ ul.quip{
     margin-right:1rem
   }
 }
+
 .highlight{
-  color:red;
+  color:mediumorchid;
 }
+
 .alphabet{  
   display: flex;
   justify-content:center;

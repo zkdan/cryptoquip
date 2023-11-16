@@ -17,6 +17,7 @@
         const arrayedPhrase = phrase.toLowerCase().split('');
         const uniqueLetters = Array.from(new Set(arrayedPhrase)).filter(item => alphabet.includes(item));
         const analogues = createAnalogues(uniqueLetters, alphabet);
+        console.log(analogues)
         // pair the letters up
         const quote =  arrayedPhrase.map(char =>{
           if(alphabet.includes(char) === false){
@@ -27,6 +28,7 @@
         });
 // go through each letter, add it to an array, set that array as 0 in the acc array
 // if it's not a letter, push to the next place in the array
+// original letter: replacement}
     const c =  phrase.split(' ').map(word =>{
           return word.split('').map(char =>{
             if(alphabet.includes(char) === false){
@@ -37,7 +39,7 @@
           })
         });
         
-        console.log(c)
+        // console.log(c)
 // console.log(`
 // ${quip.join('')}
 // ${phrase}

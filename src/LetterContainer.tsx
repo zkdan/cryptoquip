@@ -11,7 +11,7 @@ const LetterContainer = ({letter, replacement, select, selected}:ILetterContaine
       onClick={()=>select(letter)} 
       className={selected ? 'highlight' : 'normal'}>
       <span className={replacement === '*'? 'invisible' : 'visible' } >{replacement}</span>
-      <span className={replacement === '*'? 'active':'inactive'}>{letter}</span>
+      <span className={replacement === '*' ? 'active':'inactive'}>{letter}</span>
     </li>
   )
 }
