@@ -33,9 +33,10 @@ export interface IAlphabet{
   z?:string;
 }
 
-const createCypher = (phrase:string):string[][] =>{
+const createCypher = (phrase:string):[string[][], IAlphabet] =>{
   const arrayedPhrase = phrase.toLowerCase().split('');
   const uniqueLetters = Array.from(new Set(arrayedPhrase)).filter(item => alphabet.includes(item));
+  
   const analogues:IStringArr = createAnalogues(uniqueLetters, alphabet);
 
   const cryptoquote =  phrase.split(' ').map(word =>{
@@ -54,7 +55,7 @@ const createCypher = (phrase:string):string[][] =>{
 // need to go through original phrase and find each letter in unique letters and in analogues
 const createPairings = (orig:string[], analogues:string[]) =>{
   const pairs = orig.reduce((acc:IStringArr, curr, i) =>{
-      if(acc[curr]){
+    if(acc[curr]){
       return acc
     } else {
       acc[curr] = analogues[i]
@@ -62,7 +63,6 @@ const createPairings = (orig:string[], analogues:string[]) =>{
     return acc
   }, {})
   return pairs
-  // return invert(pairs);
 }
 
 
@@ -96,14 +96,18 @@ const chooseLetter =(orig:string, pool:string[]):string =>{
     return pool[num]
 }
 
-export const invert =(obj:object)=>{ 
-  const retobj = {}; 
+export const invert =(obj:{
+  [key:string]:string
+})=>{ 
+  const retobj:{
+    [key:string]:string
+  } = {}; 
   for(const key in obj){ 
     retobj[obj[key]] = key; 
   } 
   return retobj; 
 } 
-export const getRandomNumber =(arr:string[] | [string][])=>{
+export const getRandomNumber =(arr:string[] | string[][]):number=>{
   return Math.floor(Math.random() * arr.length)
 }
 

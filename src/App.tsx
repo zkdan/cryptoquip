@@ -3,12 +3,16 @@ import { useState, useEffect, useReducer } from 'react'
 import createCypher, {alphabet, getRandomNumber, invert, IAlphabet} from './utils'
 import Author from './Author';
 import LetterContainer from './LetterContainer'
+
 interface IAction{
-  [key:string]:string;
-  puzzleKey:object;
+  type: 'hint' | 'create_pair'| 'clear' | 'solve';  
+  quipLetter?:string;
+  target?:string;
+  puzzleKey?:object;
 }
+
 interface IState extends IAlphabet{
-  type: 'hint' | 'create_pair'| 'clear' | 'solve';
+
 }
 
 function reducer(state:IState, action:IAction){
@@ -22,6 +26,7 @@ function reducer(state:IState, action:IAction){
       [action.quipLetter]: action.target
     };
   }
+
   if(action.type === 'hint'){
     return {
       ...state,
@@ -41,7 +46,7 @@ function reducer(state:IState, action:IAction){
 }
 function App() {
   const [state, dispatch] = useReducer(reducer, {});
-  const [quip, setQuip] = useState<string[]>([]);
+  const [quip, setQuip] = useState<string[][]>([]);
   const [quipLetter, setQuipLetter] = useState<string>('');
   const [quipKey, setQuipKey] = useState({});
   const [hintCounter,setHintCounter] = useState(0);
@@ -61,9 +66,7 @@ function App() {
 
   }
   const selectQuipLetter =(value:string)=>{
-    // if(!quipLetter){
-    //   setQuipLetter(value);
-    // } 
+
     if(quipLetter === value){
       setQuipLetter('');
     }
@@ -89,20 +92,21 @@ function App() {
     setQuipLetter('');
   }
   const getHint =()=>{
-    const keyArr = Object.entries(quipKey);
+    const keyArr:string[][] = Object.entries(quipKey);
     const hintPair = keyArr[getRandomNumber(keyArr)];
     // hint pair exists and is correct? try another number
     if(state[hintPair[1]] === hintPair[0]){
-      giveHint();
+      getHint();
     } else {
       dispatch({
         type:'hint', 
         quipLetter: hintPair[1],
-        target:hintPair[0],
+        target: hintPair[0],
       })
       setHintCounter(x => x+1);
     }
   }
+
   const solve =()=>{
     setHintCounter(3);
     dispatch({
@@ -110,6 +114,7 @@ function App() {
       puzzleKey:quipKey
     })
   }
+
   return (
     <>
       <ul className='quip'> 
