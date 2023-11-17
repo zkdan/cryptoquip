@@ -1,9 +1,9 @@
 import './Modal.css'
-import {PropsWithChildren, ReactElement} from 'react';
+import {PropsWithChildren, ReactNode} from 'react';
 
 type IModal = {
   close:()=>void;
-  children:ReactElement;
+  children:ReactNode;
 }
 const Modal = ({children, close}:PropsWithChildren<IModal>) => {
 return(
