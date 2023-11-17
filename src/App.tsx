@@ -3,8 +3,8 @@ import { useState, useEffect, useReducer } from 'react'
 import createCypher, {alphabet, getRandomNumber, invert, IAlphabet, IStringArr} from './utils'
 import Author from './Author';
 import LetterContainer from './LetterContainer'
-
 import Modal from './Modal';
+
 interface IAction{
   type: 'hint' | 'create_pair'| 'clear' | 'solve';  
   quipLetter?:string;
@@ -44,7 +44,8 @@ function App() {
   const [quipLetter, setQuipLetter] = useState<string>('');
   const [quipKey, setQuipKey] = useState({});
   const [hintCounter,setHintCounter] = useState(0);
-  const [author, setAuthor] = useState('');  const [modal, setModal] = useState(true);
+  const [author, setAuthor] = useState('');  
+  const [modal, setModal] = useState(true);
   
   useEffect(()=>{
     fetch('https://api.quotable.io/random?maxLength=38')
@@ -151,9 +152,11 @@ function App() {
                     className={inUse || quipLetter === letter ? 'inactive': 'active'}>{letter}</li>
         })}
       </ul>
-      <button onClick={reset}>Clear all</button>
-      <button disabled={hintCounter===3} onClick={getHint}>Hint</button>
-      <button onClick={solve}>Give up</button>
+      <div className="button-container">
+        <button onClick={reset}>Clear all</button>
+        <button disabled={hintCounter===3} onClick={getHint}>Hint</button>
+        <button onClick={solve}>Give up</button>
+      </div>
     </>
   )
   
