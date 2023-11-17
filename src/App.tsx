@@ -134,7 +134,9 @@ function App() {
       <ul className='quip'> 
       {quip.map((word)=>{
         const letters = word.map((letter:string, i:number)=>{
-          return <LetterContainer 
+          return <LetterContainer
+                    tabIndex={1}
+
                     letter={letter.toLowerCase()} 
                     key={`${i}-${letter}`}
                     replacement={state[letter] || '*'}
@@ -149,7 +151,9 @@ function App() {
       <ul className='alphabet'>
         {alphabet.map((letter:string) =>{
           const inUse = Object.values(state).includes(letter);
-          return <li key={letter} 
+          return <li 
+                    tabIndex={1}
+                    key={letter} 
                     onClick={()=>selectAlphabetLetter(letter)} 
                     className={inUse || quipLetter === letter ? 'inactive': 'active'}>{letter}</li>
         })}

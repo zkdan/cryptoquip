@@ -8,6 +8,7 @@ interface ILetterContainer{
 const LetterContainer = ({letter, replacement, select, selected}:ILetterContainer) => {
   return (
     <li 
+      tabIndex={1}
       onClick={()=>select(letter)} 
       className={selected ? 'highlight' : 'normal'}>
       <span className={replacement === '*'? 'invisible' : 'visible' } >{replacement}</span>
