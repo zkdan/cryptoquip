@@ -125,6 +125,7 @@ function App() {
     const keysMatch = JSON.stringify(proposed) === JSON.stringify(key);
     if(hasProposed && keysMatch){
       setSolved(true);
+      setHintCounter(3);
     }
   }
   const solve =()=>{
@@ -133,7 +134,6 @@ function App() {
       type:'solve',
       puzzleKey:quipKey
     })
-    setSolved(false);
   }
 
   const closeModal=()=>{
@@ -187,7 +187,7 @@ function App() {
       <div className='button-container'>
         <button onClick={reset}>Clear all</button>
         <button disabled={hintCounter===3} onClick={getHint}>Hint</button>
-        <button onClick={solve}>Give up</button>
+        <button disabled={solved} onClick={solve}>Give up</button>
         <button onClick={() => setModal(true)}>Instructions</button>
       </div>
     </>
