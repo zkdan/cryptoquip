@@ -66,3 +66,8 @@ ul.quip{
   justify-content: space-around;
   margin-top:1rem;
 }
+
+@media all and (max-width:400px) {
+  
+}
+

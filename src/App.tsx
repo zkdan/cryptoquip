@@ -4,7 +4,12 @@ import createCypher, {alphabet, getRandomNumber, invert, IAlphabet, IStringArr} 
 import Author from './Author';
 import LetterContainer from './LetterContainer'
 import Modal from './Modal';
+import Confetti from 'react-confetti'
+import useWindowSize from 'react-use/lib/useWindowSize'
 
+const colors= [
+  'mediumorchid', 'pink', '#646cff', '#535bf2', 'magenta'
+]
 interface IAction{
   type: 'hint' | 'create_pair'| 'clear' | 'solve';  
   quipLetter?:string;
@@ -36,6 +41,7 @@ function reducer(state:IAlphabet, action:IAction){
   if(action.type === 'clear'){
     return {}
   }
+
   throw Error('Unknown action.')
 }
 function App() {
@@ -46,17 +52,28 @@ function App() {
   const [hintCounter,setHintCounter] = useState(0);
   const [author, setAuthor] = useState('');  
   const [modal, setModal] = useState(true);
-  
+  const [solved, setSolved] = useState(false);
+
+
   useEffect(()=>{
     fetch('https://api.quotable.io/random?maxLength=38')
     .then(res =>res.json())
     .then(res => {
-      const quip = createCypher(res.content);
+      const quip = createCypher('hi')
+      // const quip = createCypher(res.content);
       setAuthor(res.author)
       setQuip(quip[0]);
       setQuipKey(quip[1]);
     })
   }, [])
+
+  useEffect(()=>{
+    const proposedArr = Object.entries(state).sort();
+    const keyArr = Object.entries(invert(quipKey)).sort();
+    if(JSON.stringify(state) !=='{}'){
+      check(proposedArr, keyArr);
+    }
+  },[state, quipKey]);
 
   const selectQuipLetter =(value:string)=>{
 
@@ -68,8 +85,7 @@ function App() {
      }
   }
 
-  const selectAlphabetLetter =(value:string)=>{
-    
+  const selectAlphabetLetter = (value:string)=>{
     if(quipLetter === value){
       alert('A letter cannot replace itself.')
     } else if(quipLetter){
@@ -87,6 +103,7 @@ function App() {
   const reset =()=>{
     dispatch({type:'clear'})
     setQuipLetter('');
+    setSolved(false);
   }
   const getHint =()=>{
     const keyArr:string[][] = Object.entries(quipKey);
@@ -103,20 +120,31 @@ function App() {
       setHintCounter(x => x+1);
     }
   }
-
+  const check = (proposed:string[][], key:string[][]) =>{
+    const hasProposed = JSON.stringify(proposed) !=='{}';
+    const keysMatch = JSON.stringify(proposed) === JSON.stringify(key);
+    if(hasProposed && keysMatch){
+      setSolved(true);
+    }
+  }
   const solve =()=>{
     setHintCounter(3);
     dispatch({
       type:'solve',
       puzzleKey:quipKey
     })
+    setSolved(false);
   }
 
   const closeModal=()=>{
     setModal(false);
   }
+  const {width, height} = useWindowSize();
   return (
     <>
+    {solved && <Confetti height={height} width={width} initialVelocityX={10} initialVelocityY={10} friction={1} wind={0} gravity={.25} numberOfPieces={120} recycle={false} colors={colors} 
+    
+    />}
     {modal && <Modal close={closeModal}>
       <h2>Cryptoquote</h2>
       <p>This is a subsitution cypher that, when solved, will reveal some nugget of wisdom from this <a href='https://github.com/lukePeavey/quotable#api-reference-'>quotes API</a>.</p>
