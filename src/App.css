@@ -68,6 +68,8 @@ ul.quip{
 }
 
 @media all and (max-width:400px) {
-  
+  body{
+    background-color:pink;
+  }
 }
 

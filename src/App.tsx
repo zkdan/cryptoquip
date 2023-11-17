@@ -59,8 +59,7 @@ function App() {
     fetch('https://api.quotable.io/random?maxLength=38')
     .then(res =>res.json())
     .then(res => {
-      const quip = createCypher('hi')
-      // const quip = createCypher(res.content);
+      const quip = createCypher(res.content);
       setAuthor(res.author)
       setQuip(quip[0]);
       setQuipKey(quip[1]);
