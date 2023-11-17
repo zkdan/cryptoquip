@@ -5,13 +5,15 @@
 }
 
 ul{
+  font-family: 'Cutive Mono', monospace;
+  text-transform: uppercase;
   margin: 0;
   padding:0;
   list-style-type: none;
   display: flex;
+  font-family:monospace;
   font-weight: bold;
   font-size: 2rem;
-  font-variant: small-caps;
   li{
     display: flex;
     flex-direction:column;
@@ -57,4 +59,10 @@ ul.quip{
 
     }
   }
+}
+
+.button-container{
+  display: flex;
+  justify-content: space-around;
+  margin-top:1rem;
 }

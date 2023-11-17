@@ -3,6 +3,7 @@ import { useState, useEffect, useReducer } from 'react'
 import createCypher, {alphabet, getRandomNumber, invert, IAlphabet, IStringArr} from './utils'
 import Author from './Author';
 import LetterContainer from './LetterContainer'
+import Modal from './Modal';
 
 interface IAction{
   type: 'hint' | 'create_pair'| 'clear' | 'solve';  
@@ -43,7 +44,9 @@ function App() {
   const [quipLetter, setQuipLetter] = useState<string>('');
   const [quipKey, setQuipKey] = useState({});
   const [hintCounter,setHintCounter] = useState(0);
-  const [author, setAuthor] = useState('');
+  const [author, setAuthor] = useState('');  
+  const [modal, setModal] = useState(true);
+  
   useEffect(()=>{
     fetch('https://api.quotable.io/random?maxLength=38')
     .then(res =>res.json())
@@ -109,8 +112,23 @@ function App() {
     })
   }
 
+  const closeModal=()=>{
+    setModal(false);
+  }
   return (
     <>
+    {modal && <Modal close={closeModal}>
+      <p>This is a subsitution cypher. For example: A in the puzzle might stand for G in the actual quotation.</p>
+      <ul>
+      <LetterContainer 
+                    letter={"A"} 
+                    replacement={"G"}
+                    selected={false}
+                    select={()=>{}}/>
+      </ul>
+      <p>Each letter is replaced by one other letter (ie. if A replaces G, A will not replace any other letter).</p>
+      <p>Click a letter in the puzzle to propose a replacement. Click a second time to change your mind.</p>
+    </Modal>}
       <ul className='quip'> 
       {quip.map((word)=>{
         const letters = word.map((letter:string, i:number)=>{
@@ -134,9 +152,11 @@ function App() {
                     className={inUse || quipLetter === letter ? 'inactive': 'active'}>{letter}</li>
         })}
       </ul>
-      <button onClick={reset}>Clear all</button>
-      <button disabled={hintCounter===3} onClick={getHint}>Hint</button>
-      <button onClick={solve}>Give up</button>
+      <div className="button-container">
+        <button onClick={reset}>Clear all</button>
+        <button disabled={hintCounter===3} onClick={getHint}>Hint</button>
+        <button onClick={solve}>Give up</button>
+      </div>
     </>
   )
   
