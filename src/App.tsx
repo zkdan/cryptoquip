@@ -135,8 +135,6 @@ function App() {
       {quip.map((word)=>{
         const letters = word.map((letter:string, i:number)=>{
           return <LetterContainer
-                    tabIndex={1}
-
                     letter={letter.toLowerCase()} 
                     key={`${i}-${letter}`}
                     replacement={state[letter] || '*'}
