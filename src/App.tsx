@@ -118,15 +118,17 @@ function App() {
   return (
     <>
     {modal && <Modal close={closeModal}>
-      <p>This is a subsitution cypher. For example: A in the puzzle might stand for G in the actual quotation.</p>
+      <h2>Cryptoquote</h2>
+      <p>This is a subsitution cypher that, when solved, will reveal some nugget of wisdom from this <a href='https://github.com/lukePeavey/quotable#api-reference-'>quotes API</a>.</p>
+      <p>For example: the letter A in the puzzle might stand for G in the actual quotation.</p>
       <ul>
       <LetterContainer 
-                    letter={"A"} 
-                    replacement={"G"}
+                    letter={'A'} 
+                    replacement={'G'}
                     selected={false}
                     select={()=>{}}/>
       </ul>
-      <p>Each letter is replaced by one other letter (ie. if A replaces G, A will not replace any other letter).</p>
+      <p>Each letter is replaced by one other letter (ie. if A replaces G, A will not replace any other letter). But when you're solving, you can have a replacement letter in two places.</p>
       <p>Click a letter in the puzzle to propose a replacement. Click a second time to change your mind.</p>
     </Modal>}
       <ul className='quip'> 
@@ -152,10 +154,11 @@ function App() {
                     className={inUse || quipLetter === letter ? 'inactive': 'active'}>{letter}</li>
         })}
       </ul>
-      <div className="button-container">
+      <div className='button-container'>
         <button onClick={reset}>Clear all</button>
         <button disabled={hintCounter===3} onClick={getHint}>Hint</button>
         <button onClick={solve}>Give up</button>
+        <button onClick={() => setModal(true)}>Instructions</button>
       </div>
     </>
   )
