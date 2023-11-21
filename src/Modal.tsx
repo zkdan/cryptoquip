@@ -20,8 +20,10 @@ useEffect(()=>{
   }
 return(
   <div ref={modalRef} tabIndex={1} className="modal" onKeyDown={checkForEsc}>
-    <button onClick={close} tabIndex={1}>x</button>
-    {children}
+    <div className="modal-content">
+      <button className="close-button" onClick={close} tabIndex={1}>x</button>
+      {children}
+    </div>
   </div>
 )
 }

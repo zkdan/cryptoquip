@@ -7,16 +7,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
   background-color: rgba(0,0,0,.9);
   z-index: 10;
-  p{
-    width: 70%;
-    max-width:1220px;
-  }
-  button {
-    position: absolute;
-    top:2rem;
-    right:2rem;
-  }
+  overflow-y: scroll;
+  padding-top:2rem;
+}
+.modal-content{
+  width: 80%;
+  max-width:1220px;
+  position: relative;
+}
+.modal-content ul{
+  display:block;
+}
+
+.close-button {
+  position: absolute;
+  top:0;
+  right:0;
 }

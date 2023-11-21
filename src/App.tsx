@@ -7,6 +7,7 @@ import Modal from './Modal';
 import Confetti from 'react-confetti'
 import useWindowSize from 'react-use/lib/useWindowSize'
 
+
 const colors= [
   'mediumorchid', 'pink', '#646cff', '#535bf2', 'magenta'
 ]
