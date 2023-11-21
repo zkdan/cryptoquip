@@ -186,7 +186,7 @@ function App() {
       </ul>
       <div className='button-container'>
         <button onClick={reset}>Clear all</button>
-        <button disabled={hintCounter===3} onClick={getHint}>Hint</button>
+        <button onClick={getHint} disabled={hintCounter===3} >Hint</button>
         <button disabled={solved} onClick={solve}>Give up</button>
         <button onClick={() => setModal(true)}>Instructions</button>
       </div>
