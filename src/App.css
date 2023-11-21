@@ -69,5 +69,8 @@ ul.quip ul {
     margin-bottom:1rem;
     width:40%;
   }
+  .modal-content{
+    margin-top:10rem;
+  }
 }
 
