@@ -6,8 +6,6 @@ import LetterContainer from './LetterContainer'
 import Modal from './Modal';
 import Confetti from 'react-confetti'
 import useWindowSize from 'react-use/lib/useWindowSize'
-
-
 const colors= [
   'mediumorchid', 'pink', '#646cff', '#535bf2', 'magenta'
 ]
@@ -19,13 +17,14 @@ interface IAction{
 }
 
 function reducer(state:IAlphabet, action:IAction){
+  
   if (action.type === 'create_pair') {
     return {
       ...state,
       [action.quipLetter!]: action.target
     };
   }
-
+  // a hint solves one of the pairs
   if(action.type === 'hint'){
     return {
       ...state,
@@ -100,11 +99,13 @@ function App() {
       })
     }
   }
+
   const reset =()=>{
     dispatch({type:'clear'})
     setQuipLetter('');
     setSolved(false);
   }
+
   const getHint =()=>{
     const keyArr:string[][] = Object.entries(quipKey);
     const hintPair = keyArr[getRandomNumber(keyArr)];
@@ -120,6 +121,7 @@ function App() {
       setHintCounter(x => x+1);
     }
   }
+
   const check = (proposed:string[][], key:string[][]) =>{
     const hasProposed = JSON.stringify(proposed) !=='{}';
     const keysMatch = JSON.stringify(proposed) === JSON.stringify(key);
@@ -128,6 +130,7 @@ function App() {
       setHintCounter(3);
     }
   }
+
   const solve =()=>{
     setHintCounter(3);
     dispatch({
@@ -139,29 +142,37 @@ function App() {
   const closeModal=()=>{
     setModal(false);
   }
+
+  // for confetti package
   const {width, height} = useWindowSize();
+  const confetti = solved ? <Confetti height={height} width={width} initialVelocityX={10} initialVelocityY={10} friction={1} wind={0} gravity={.25} numberOfPieces={120} recycle={false} colors={colors} /> : <></>
+  
+
+  const instructions = modal ? 
+                <Modal close={closeModal}>
+                  <h2>Cryptoquote</h2>
+                  <p>This is a subsitution cypher that, when solved, will reveal some nugget of wisdom from this <a href='https://github.com/lukePeavey/quotable#api-reference-'>quotes API</a>.</p>
+                  <p>For example: the letter A in the puzzle might stand for G in the actual quotation.</p>
+                  <ul>
+                  <LetterContainer 
+                                displayOnly={true}
+                                letter={'A'} 
+                                replacement={'G'}
+                                selected={false}
+                                select={()=>{}}/>
+                  </ul>
+                  <p>Each letter is replaced by one other letter (ie. if A replaces G, A will not replace any other letter). But when you're solving, you can have a replacement letter in two places.</p>
+                  <p>Click a letter in the puzzle to propose a replacement. Click a second time to change your mind.</p>
+                </Modal> :
+                <></>
   return (
-    <>
-    {solved && <Confetti height={height} width={width} initialVelocityX={10} initialVelocityY={10} friction={1} wind={0} gravity={.25} numberOfPieces={120} recycle={false} colors={colors} 
-    
-    />}
-    {modal && <Modal close={closeModal}>
-      <h2>Cryptoquote</h2>
-      <p>This is a subsitution cypher that, when solved, will reveal some nugget of wisdom from this <a href='https://github.com/lukePeavey/quotable#api-reference-'>quotes API</a>.</p>
-      <p>For example: the letter A in the puzzle might stand for G in the actual quotation.</p>
-      <ul>
-      <LetterContainer 
-                    letter={'A'} 
-                    replacement={'G'}
-                    selected={false}
-                    select={()=>{}}/>
-      </ul>
-      <p>Each letter is replaced by one other letter (ie. if A replaces G, A will not replace any other letter). But when you're solving, you can have a replacement letter in two places.</p>
-      <p>Click a letter in the puzzle to propose a replacement. Click a second time to change your mind.</p>
-    </Modal>}
+    <main>
+    {confetti}
+    {instructions}
       <ul className='quip'> 
       {quip.map((word)=>{
         const letters = word.map((letter:string, i:number)=>{
+         
           return <LetterContainer
                     letter={letter.toLowerCase()} 
                     key={`${i}-${letter}`}
@@ -175,22 +186,21 @@ function App() {
       </ul>
       <Author author={author}/>
       <ul className='alphabet'>
-        {alphabet.map((letter:string) =>{
+        {alphabet.map((letter:string) => {
           const inUse = Object.values(state).includes(letter);
-          return <li 
-                    tabIndex={1}
+          return <button
                     key={letter} 
                     onClick={()=>selectAlphabetLetter(letter)} 
-                    className={inUse || quipLetter === letter ? 'inactive': 'active'}>{letter}</li>
+                    className={inUse || quipLetter === letter ? 'inactive': 'active'}>{letter}</button>
         })}
       </ul>
-      <div className='button-container'>
+      <div className='button-container game-actions'>
         <button onClick={reset}>Clear all</button>
-        <button onClick={getHint} disabled={hintCounter===3} >Hint</button>
-        <button disabled={solved} onClick={solve}>Give up</button>
+        <button onClick={getHint} disabled={hintCounter===3}>Hint</button>
+        <button onClick={solve} disabled={solved} >Give up</button>
         <button onClick={() => setModal(true)}>Instructions</button>
       </div>
-    </>
+    </main>
   )
   
 }

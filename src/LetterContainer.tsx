@@ -1,18 +1,24 @@
-
 interface ILetterContainer{
   letter:string;
   replacement:string;
   select:(value:string) => void;
   selected:boolean;
+  displayOnly?:boolean
 }
-const LetterContainer = ({letter, replacement, select, selected}:ILetterContainer) => {
+const LetterContainer = ({letter, replacement, select, selected, displayOnly}:ILetterContainer) => {
   return (
     <li 
-      tabIndex={1}
       onClick={()=>select(letter)} 
       className={selected ? 'highlight' : 'normal'}>
-      <span className={replacement === '*'? 'invisible' : 'visible' } >{replacement}</span>
-      <span className={replacement === '*' ? 'active':'inactive'}>{letter}</span>
+      <button 
+        tabIndex={-1}
+        aria-hidden={replacement === '*'? true : false }
+        className={replacement === '*'? 'invisible' : 'visible' } 
+        >{replacement}</button>
+      <button
+        tabIndex={ displayOnly ? -1 : 0}
+        disabled={letter === '.'}
+        className={replacement === '*' ? 'active':'inactive'}>{letter}</button>
     </li>
   )
 }

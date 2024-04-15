@@ -3,12 +3,12 @@ ul{
   text-transform: uppercase;
   margin: 0;
   padding:0;
-  list-style-type: none;
   display: flex;
-  font-family:monospace;
-  font-weight: bold;
-  font-size: 2rem;
+  font-family: 'Cutive Mono', monospace;
+  margin: .1rem 0;
+  padding:.3rem;
 }
+
 ul li{
   display: flex;
   flex-direction:column;
@@ -21,40 +21,66 @@ ul li{
 .invisible{
   visibility: hidden;
 }
+
 .visible{
   visibility: visible;
 }
 
-ul.quip{
+button{
+  font-family:monospace;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Quip styles */
+.quip{
   font-size: 2rem;
   flex-wrap:wrap;
 }
 
-ul.quip ul {
+.quip button{
+  margin: .1rem 0;
+  padding:.3rem;
+  background-color: transparent;
+  border:1px solid orchid;
+  color:white;
+  border:none;
+}
+
+.quip ul {
   margin-right:1rem
 }
 
-.highlight{
+.highlight button:first-of-type{
   color:mediumorchid;
 }
+.highlight button:nth-of-type(2n){
+  color:pink;
+}
+
+/* Alphabet styles */
 
 .alphabet{  
   display: flex;
   justify-content:center;
   flex-wrap: wrap;
 }
-.alphabet li {
-  padding:0 1rem;
-  border:1px solid mediumorchid;
+.alphabet button{
+  padding:0rem 1rem;
   margin:2px;
+  background-color: #242424;
+  color:white;  
+  border:1px solid purple;
 }
 
-.alphabet li.inactive{
+.alphabet button.inactive{
   border: 1px dotted;
-
+  background-color: #242424;
 }
 
-.button-container{
+/*  Footer container */
+.game-actions{
   display: flex;
   justify-content: space-around;
   margin-top:1rem;
