@@ -1,13 +1,14 @@
 import './App.css'
-import { useState, useEffect, useReducer } from 'react'
+import { useState, useEffect, useReducer, KeyboardEvent } from 'react'
 import createCypher, {alphabet, getRandomNumber, invert, IAlphabet, IStringArr} from './utils'
 import Author from './Author';
 import LetterContainer from './LetterContainer'
 import Modal from './Modal';
 import Confetti from 'react-confetti'
 import useWindowSize from 'react-use/lib/useWindowSize'
+
 const colors= [
-  'mediumorchid', 'pink', '#646cff', '#535bf2', 'magenta'
+  'orange', 'yellow', '#ffa700', '#535bf2', 'tomato'
 ]
 interface IAction{
   type: 'hint' | 'create_pair'| 'clear' | 'solve';  
@@ -165,20 +166,20 @@ function App() {
                 </Modal> :
                 <></>
 
-  // const checkKey=(e)=>{
-  //   if(quipLetter && alphabet.join('').includes(e.key)){
-  //     selectAlphabetLetter(e.key)
-  //   }
-  // }
+  const checkKey=(e:KeyboardEvent)=>{
+    if(quipLetter && alphabet.join('').includes(e.key)){
+      selectAlphabetLetter(e.key)
+    }
+  }
   return (
     <main 
-    // onKeyDown={checkKey}
+    onKeyDown={checkKey}
     >
       <h1>Cryptoquote</h1>
     {confetti}
     {instructions}
       <ul className='quip'> 
-      {quip.map((word)=>{
+      {quip.map((word, i)=>{
         const letters = word.map((letter:string, i:number)=>{
           return <LetterContainer
                     letter={letter.toLowerCase()} 
@@ -187,7 +188,7 @@ function App() {
                     selected={quipLetter===letter}
                     select={selectQuipLetter}/>
         })
-        return <li><ul>{letters}</ul></li>
+        return <li key={i}><ul>{letters}</ul></li>
       })
       }
       </ul>
@@ -195,7 +196,7 @@ function App() {
       <ul className='alphabet'>
         {alphabet.map((letter:string) => {
           const inUse = Object.values(state).includes(letter);
-          return <li onClick={()=>selectAlphabetLetter(letter)} >
+          return <li key={letter} onClick={()=>selectAlphabetLetter(letter)} >
                     <button
                     key={letter} 
                     className={inUse || quipLetter === letter ? 'inactive': 'active'}>{letter}</button>

@@ -1,10 +1,9 @@
 ul{
-  font-family: 'Cutive Mono', monospace;
+  font-family: monospace;
   text-transform: uppercase;
   margin: 0;
   padding:0;
   display: flex;
-  font-family: 'Cutive Mono', monospace;
   margin: .1rem 0;
   padding:.3rem;
 }
@@ -16,7 +15,7 @@ ul li{
 }
 
 .inactive{
-  opacity:.8;
+  opacity:.6;
 }
 .invisible{
   visibility: hidden;
@@ -36,8 +35,8 @@ ul li{
   margin: .1rem 0;
   padding:.3rem;
   background-color: transparent;
-  border:1px solid orchid;
   color:white;
+  opacity:.8;
   border:none;
 }
 
@@ -45,12 +44,18 @@ ul li{
   margin-right:1rem
 }
 
-.highlight button:first-of-type{
-  color:mediumorchid;
+.highlight button,
+.highlight span {
+  color: #ffa700;
 }
-.highlight button:nth-of-type(2n){
-  color: pink;
+
+span{
+  color: white;
+  font-style: italic;
+  font-weight: bold;
+
 }
+
 
 /* Alphabet styles */
 
@@ -64,7 +69,7 @@ ul li{
   margin:2px;
   background-color: #242424;
   color:white;  
-  border:1px solid purple;
+  border:1px solid white;
 }
 
 .alphabet button.inactive{
@@ -78,8 +83,7 @@ ul li{
   justify-content: center;
 }
 
-/*  Footer container */
-
+/*  Actions buttons */
 .game-actions{
   display: flex;
   justify-content: space-around;
@@ -87,7 +91,7 @@ ul li{
 }
 .game-actions button {
   border-radius: 8px;
-  color:#b9ff64;
+  color: #ffa700;
   border: 1px solid transparent;
   padding: 0.6rem 1.2rem;
   font-size: 1rem;
@@ -99,7 +103,7 @@ ul li{
 }
 
 .game-actions button:hover {
-  border-color: #b9ff64;
+  border-color: #ffa700;
 }
 
 @media all and (max-width:500px) {

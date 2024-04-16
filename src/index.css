@@ -20,11 +20,13 @@ button{
   font-size: 2rem;
   font-weight: bold;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 a {
   font-weight: 500;
   text-decoration: inherit;
+  color: #ffa700;
 }
 
 a:hover {

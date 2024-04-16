@@ -10,15 +10,16 @@ const LetterContainer = ({letter, replacement, select, selected, displayOnly}:IL
     <li 
       onClick={()=>select(letter)} 
       className={selected ? 'highlight' : 'normal'}>
-      <button 
+      <span 
         tabIndex={-1}
         aria-hidden={replacement === '*'? true : false }
         className={replacement === '*'? 'invisible' : 'visible' } 
-        >{replacement}</button>
+        >{replacement}</span>
       <button
         tabIndex={ displayOnly ? -1 : 0}
         disabled={letter === '.'}
-        className={replacement === '*' ? 'active':'inactive'}>{letter}</button>
+        className={replacement === '*' ? 'active':'inactive'}
+        >{letter}</button>
     </li>
   )
 }
