@@ -2,9 +2,12 @@
 An NYT-inspired word game that allows players to solve a monoalphabetic substitution cypher to reveal a quote from the <a href="https://github.com/lukePeavey/quotable#quotable">Quotable API</a>.
 
 ## To do
+- Pop animation on change letter focus
+- Qwerty layout
+- Delete removes letter in line?
 - Refit styles for mobile
 - Better error handling (same letter chosen)
-- Keyboard navigation
+- Keyboard navigation (keyboard branch)
 - Click off to deselect quip letter
 - localStorage/cookies for one quip a day per user
 - ~~Alert for win~~
