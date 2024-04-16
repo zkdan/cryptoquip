@@ -1,7 +1,7 @@
 import './App.css'
 import { useState, useEffect, useReducer, KeyboardEvent } from 'react'
 import createCypher, {alphabet, getRandomNumber, invert, IAlphabet, IStringArr} from './utils'
-import Author from './Author';
+import Author from './Author/Author';
 import LetterContainer from './LetterContainer'
 import Modal from './Modal';
 import Confetti from 'react-confetti'

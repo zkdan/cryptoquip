@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import {IStringArr} from './utils' 
+import {IStringArr} from '../utils' 
 import './Author.css'
 const Author =({author}:IStringArr)=>{
     useEffect(()=>{
