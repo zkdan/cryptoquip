@@ -2,8 +2,8 @@ import './App.css'
 import { useState, useEffect, useReducer, KeyboardEvent } from 'react'
 import createCypher, {alphabet, getRandomNumber, invert, IAlphabet, IStringArr} from './utils'
 import Author from './Author/Author';
-import LetterContainer from './LetterContainer'
-import Modal from './Modal';
+import LetterContainer from './LetterContainer/LetterContainer'
+import Modal from './Modal/Modal';
 import Confetti from 'react-confetti'
 import useWindowSize from 'react-use/lib/useWindowSize'
 const colors= [

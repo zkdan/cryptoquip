@@ -1,5 +1,6 @@
 import './Modal.css'
 import {PropsWithChildren, ReactNode, KeyboardEvent} from 'react';
+
 type IModal = {
   close:()=>void;
   children:ReactNode;
@@ -18,12 +19,13 @@ const checkKey =(e:KeyboardEvent<HTMLDivElement>)=>{
 return(
     <div 
       role={'dialog'} 
+      aria-modal
       tabIndex={0} 
+      title={'Instructions'}
       className='modal' 
       onKeyDown={checkKey} 
       onClick={close} >
       <div 
-        aria-modal='true' 
         className='modal-content'>
           <button autoFocus className='close-button' onClick={close} tabIndex={0}>x</button>
           {children}

@@ -1,4 +1,4 @@
-import {alphabet} from './utils'
+import {alphabet} from '../utils'
 
 interface ILetterContainer{
   letter:string;
