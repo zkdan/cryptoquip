@@ -1,14 +1,16 @@
 import './App.css'
-import { useState, useEffect, useReducer, KeyboardEvent } from 'react'
+import { useState, useEffect, useReducer, KeyboardEvent, useCallback} from 'react'
 import createCypher, {alphabet, getRandomNumber, invert, IAlphabet, IStringArr} from './utils'
-import Author from './Author/Author';
 import LetterContainer from './LetterContainer/LetterContainer'
 import Modal from './Modal/Modal';
 import Confetti from 'react-confetti'
 import useWindowSize from 'react-use/lib/useWindowSize'
+import Alphabet from './Alphabet';
+
 const colors= [
   'mediumorchid', 'pink', '#646cff', '#535bf2', 'magenta'
 ]
+
 interface IAction{
   type: 'hint' | 'create_pair'| 'clear' | 'solve';  
   quipLetter?:string;
@@ -37,11 +39,10 @@ function reducer(state:IAlphabet, action:IAction){
       return invert(action.puzzleKey)
     }
   }
-
+  
   if(action.type === 'clear'){
     return {}
   }
-
   throw Error('Unknown action.')
 }
 function App() {
@@ -54,37 +55,54 @@ function App() {
   const [modal, setModal] = useState(true);
   const [solved, setSolved] = useState(false);
 
-
-  useEffect(()=>{
-    fetch('https://api.quotable.io/random?maxLength=38')
-    .then(res =>res.json())
-    .then(res => {
-      const quip = createCypher(res.content);
-      setAuthor(res.author)
-      setQuip(quip[0]);
-      setQuipKey(quip[1]);
-    })
+  useEffect(() => {
+      if(localStorage.storageInfo){
+      const oldInfo = JSON.parse(localStorage.storageInfo);
+      const currentDate = (new Date).getDate();
+      const isReturning = currentDate === oldInfo.date
+      if(isReturning){
+        setQuip(oldInfo.quip)
+        setQuipKey(oldInfo.key)
+        setAuthor(oldInfo.author)
+      }
+      } else {
+        fetch('https://api.quotable.io/random?maxLength=38')
+        .then(res =>res.json())
+        .then(res => {
+          const quip = createCypher(res.content);
+          setAuthor(res.author)
+          setQuip(quip[0]);
+          setQuipKey(quip[1]);
+          const storageInfo = {
+            quip:quip[0],
+            key:quip[1],
+            date: (new Date).getDate(),
+            author:res.author
+          }
+          localStorage.setItem('storageInfo', JSON.stringify(storageInfo)) 
+    })}
   }, [])
 
-  useEffect(()=>{
-    const proposedArr = Object.entries(state).sort();
-    const keyArr = Object.entries(invert(quipKey)).sort();
-    if(JSON.stringify(state) !=='{}'){
-      check(proposedArr, keyArr);
+  const check = useCallback(() => {
+    const proposed = JSON.stringify(Object.values(state))
+    const keysMatch = JSON.stringify(proposed) === JSON.stringify(quipKey);
+    if(keysMatch){
+      setSolved(true)
+      setHintCounter(3);
     }
-  },[state, quipKey]);
+  }, [quipKey, state])
 
-  const selectQuipLetter =(value:string)=>{
+  const selectQuipLetter = useCallback((value:string) => {
+      if(quipLetter === value){
+        setQuipLetter('');
+      }
+      else {
+        setQuipLetter(value);
+        check()
+      }
+    },[check, quipLetter])
 
-    if(quipLetter === value){
-      setQuipLetter('');
-    }
-     else {
-      setQuipLetter(value);
-     }
-  }
-
-  const selectAlphabetLetter = (value:string)=>{
+  const selectAlphabetLetter = useCallback((value:string) => {
     if(quipLetter === value){
       alert('A letter cannot replace itself.')
     } else if(quipLetter){
@@ -92,21 +110,22 @@ function App() {
       if(value === state[quipLetter]){
         value = ''
       }
+      check()
       dispatch({
         type:'create_pair', 
         quipLetter, 
         target:value
       })
     }
-  }
+  },[quipLetter,state, check])
 
-  const reset = () =>{
+  const reset = useCallback(() => {
     dispatch({type:'clear'})
     setQuipLetter('');
     setSolved(false);
-  }
+  },[])
 
-  const getHint = () =>{
+  const getHint = useCallback(() => {{
     const keyArr:string[][] = Object.entries(quipKey);
     const hintPair = keyArr[getRandomNumber(keyArr)];
     // hint pair exists and is correct? try another number
@@ -118,21 +137,13 @@ function App() {
         quipLetter: hintPair[1],
         target: hintPair[0],
       })
-      setHintCounter(x => x+1);
+      setHintCounter(x => x+1)
     }
-  }
-
-  const check = (proposed:string[][], key:string[][]) =>{
-    const hasProposed = JSON.stringify(proposed) !=='{}';
-    const keysMatch = JSON.stringify(proposed) === JSON.stringify(key);
-    if(hasProposed && keysMatch){
-      setSolved(true);
-      setHintCounter(3);
-    }
-  }
+  }},[quipKey, state])
 
   const solve =()=>{
-    setHintCounter(3);
+    setHintCounter(3)
+    setSolved(true)
     dispatch({
       type:'solve',
       puzzleKey:quipKey
@@ -148,8 +159,7 @@ function App() {
   const confetti = solved ? <Confetti height={height} width={width} initialVelocityX={10} initialVelocityY={10} friction={1} wind={0} gravity={.25} numberOfPieces={120} recycle={false} colors={colors} /> : <></>
   
 
-  const instructions = modal ? 
-                <Modal close={closeModal}>
+  const instructions = <Modal close={closeModal}>
                   <h2>Cryptoquote</h2>
                   <p>This is a subsitution cypher that, when solved, will reveal some nugget of wisdom from this <a href='https://github.com/lukePeavey/quotable#api-reference-'>quotes API</a>.</p>
                   <p>For example: the letter A in the puzzle might stand for G in the actual quotation.</p>
@@ -163,8 +173,7 @@ function App() {
                   </ul>
                   <p>Each letter is replaced by one other letter (ie. if A replaces G, A will not replace any other letter). But when you're solving, you can have a replacement letter in two places.</p>
                   <p>Click a letter in the puzzle to propose a replacement. Click a second time to change your mind.</p>
-                </Modal> :
-                <></>
+                </Modal>
 
   const checkKey=(e:KeyboardEvent)=>{
     if(quipLetter && alphabet.join('').includes(e.key)){
@@ -177,7 +186,7 @@ function App() {
     >
       <h1>Cryptoquote</h1>
     {confetti}
-    {instructions}
+    { modal ? instructions : <></>}
       <ul className='quip'> 
       {quip.map((word,i)=>{
         const letters = word.map((letter:string, i:number)=>{
@@ -192,19 +201,14 @@ function App() {
       })
       }
       </ul>
-      <Author author={author}/>
-      <ul className='alphabet'>
-        {alphabet.map((letter:string) => {
-          const inUse = Object.values(state).includes(letter);
-          return <li 
-                  key={letter}
-                  onClick={()=>selectAlphabetLetter(letter)} >
-                    <button
-                    key={letter} 
-                    className={inUse || quipLetter === letter ? 'inactive': 'active'}>{letter}</button>
-                  </li>
-        })}
-      </ul>
+      <aside>
+        <h2> -{author}</h2>
+      </aside>
+      <Alphabet 
+        lettersInUse={Object.values(state)}
+        select={selectAlphabetLetter}
+        quipLetter={quipLetter}
+      />
       <div className='button-container game-actions'>
         <button onClick={reset}>Clear all</button>
         <button onClick={getHint} disabled={hintCounter===3}>Hint</button>

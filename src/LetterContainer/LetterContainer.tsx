@@ -1,5 +1,5 @@
 import {alphabet} from '../utils'
-
+import {memo} from 'react'
 interface ILetterContainer{
   letter:string;
   replacement:string;
@@ -7,7 +7,7 @@ interface ILetterContainer{
   selected:boolean;
   displayOnly?:boolean
 }
-const LetterContainer = ({letter, replacement, select, selected, displayOnly}:ILetterContainer) => {
+const LetterContainer = memo(({letter, replacement, select, selected, displayOnly}:ILetterContainer) => {
   return (
     <li 
       onClick={()=>select(letter)} 
@@ -23,5 +23,5 @@ const LetterContainer = ({letter, replacement, select, selected, displayOnly}:IL
         className={replacement === '*' ? 'active':'inactive'}>{letter}</button>
     </li>
   )
-}
+})
 export default LetterContainer
