@@ -15,19 +15,20 @@ interface IAction{
   target?:string;
   puzzleKey?:IStringArr;
 }
+
 function reducer(state:IAlphabet, action:IAction){
   
   if (action.type === 'create_pair') {
     return {
       ...state,
-      [action.quipLetter!]: action.target
+      [action.quipLetter as string]: action.target
     };
   }
   // a hint solves one of the pairs
   if(action.type === 'hint'){
     return {
       ...state,
-      [action.quipLetter!]: action.target
+      [action.quipLetter as string]: action.target
     };
   } 
   // the puzzleKey is backwards for the state
