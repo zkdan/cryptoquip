@@ -16,7 +16,7 @@ ul li{
 }
 
 .inactive{
-  opacity:.7;
+  opacity:.8;
 }
 .invisible{
   visibility: hidden;
@@ -24,13 +24,6 @@ ul li{
 
 .visible{
   visibility: visible;
-}
-
-button{
-  font-family:monospace;
-  font-size: 2rem;
-  font-weight: bold;
-  text-transform: uppercase;
 }
 
 /* Quip styles */
@@ -56,7 +49,7 @@ button{
   color:mediumorchid;
 }
 .highlight button:nth-of-type(2n){
-  color:pink;
+  color: pink;
 }
 
 /* Alphabet styles */
@@ -79,11 +72,34 @@ button{
   background-color: #242424;
 }
 
+/* Modal styles */
+.modal-content ul{
+  display: flex;
+  justify-content: center;
+}
+
 /*  Footer container */
+
 .game-actions{
   display: flex;
   justify-content: space-around;
   margin-top:1rem;
+}
+.game-actions button {
+  border-radius: 8px;
+  color:#b9ff64;
+  border: 1px solid transparent;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.game-actions button:hover {
+  border-color: #b9ff64;
 }
 
 @media all and (max-width:500px) {

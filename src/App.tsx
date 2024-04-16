@@ -15,7 +15,6 @@ interface IAction{
   target?:string;
   puzzleKey?:IStringArr;
 }
-
 function reducer(state:IAlphabet, action:IAction){
   
   if (action.type === 'create_pair') {
@@ -100,13 +99,13 @@ function App() {
     }
   }
 
-  const reset =()=>{
+  const reset = () =>{
     dispatch({type:'clear'})
     setQuipLetter('');
     setSolved(false);
   }
 
-  const getHint =()=>{
+  const getHint = () =>{
     const keyArr:string[][] = Object.entries(quipKey);
     const hintPair = keyArr[getRandomNumber(keyArr)];
     // hint pair exists and is correct? try another number
@@ -165,14 +164,22 @@ function App() {
                   <p>Click a letter in the puzzle to propose a replacement. Click a second time to change your mind.</p>
                 </Modal> :
                 <></>
+
+  // const checkKey=(e)=>{
+  //   if(quipLetter && alphabet.join('').includes(e.key)){
+  //     selectAlphabetLetter(e.key)
+  //   }
+  // }
   return (
-    <main>
+    <main 
+    // onKeyDown={checkKey}
+    >
+      <h1>Cryptoquote</h1>
     {confetti}
     {instructions}
       <ul className='quip'> 
       {quip.map((word)=>{
         const letters = word.map((letter:string, i:number)=>{
-         
           return <LetterContainer
                     letter={letter.toLowerCase()} 
                     key={`${i}-${letter}`}
@@ -180,7 +187,7 @@ function App() {
                     selected={quipLetter===letter}
                     select={selectQuipLetter}/>
         })
-        return <ul>{letters}</ul>
+        return <li><ul>{letters}</ul></li>
       })
       }
       </ul>
@@ -188,10 +195,11 @@ function App() {
       <ul className='alphabet'>
         {alphabet.map((letter:string) => {
           const inUse = Object.values(state).includes(letter);
-          return <button
+          return <li onClick={()=>selectAlphabetLetter(letter)} >
+                    <button
                     key={letter} 
-                    onClick={()=>selectAlphabetLetter(letter)} 
                     className={inUse || quipLetter === letter ? 'inactive': 'active'}>{letter}</button>
+                  </li>
         })}
       </ul>
       <div className='button-container game-actions'>
