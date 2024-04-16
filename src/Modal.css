@@ -21,6 +21,10 @@
 .modal-content ul{
   display:block;
 }
+.letter > *{
+  background: transparent;
+  border: none;
+}
 
 .close-button {
   position: absolute;
