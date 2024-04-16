@@ -1,20 +1,3 @@
-ul{
-  font-family: 'Cutive Mono', monospace;
-  text-transform: uppercase;
-  margin: 0;
-  padding:0;
-  display: flex;
-  font-family: 'Cutive Mono', monospace;
-  margin: .1rem 0;
-  padding:.3rem;
-}
-
-ul li{
-  display: flex;
-  flex-direction:column;
-  text-align: center;
-}
-
 .inactive{
   opacity:.8;
 }
@@ -36,20 +19,24 @@ ul li{
   margin: .1rem 0;
   padding:.3rem;
   background-color: transparent;
-  border:1px solid orchid;
   color:white;
   border:none;
 }
 
 .quip ul {
-  margin-right:1rem
+  margin-right:1rem;
 }
 
-.highlight button:first-of-type{
+.letter span{
+  font-size:2.1rem;
+  font-family: monospace;
+}
+
+.highlight span{
   color:mediumorchid;
 }
-.highlight button:nth-of-type(2n){
-  color: pink;
+.highlight button{
+  color: gray;
 }
 
 /* Alphabet styles */
@@ -62,9 +49,10 @@ ul li{
 .alphabet button{
   padding:0rem 1rem;
   margin:2px;
-  background-color: #242424;
+  background-color: gray;
   color:white;  
-  border:1px solid purple;
+  border:1px solid transparent;
+  border-radius:5px;
 }
 
 .alphabet button.inactive{
@@ -87,7 +75,7 @@ ul li{
 }
 .game-actions button {
   border-radius: 8px;
-  color:#b9ff64;
+  color:orchid;
   border: 1px solid transparent;
   padding: 0.6rem 1.2rem;
   font-size: 1rem;
@@ -99,7 +87,7 @@ ul li{
 }
 
 .game-actions button:hover {
-  border-color: #b9ff64;
+  border-color: orchid;
 }
 
 @media all and (max-width:500px) {

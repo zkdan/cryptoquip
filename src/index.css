@@ -25,6 +25,7 @@ button{
 a {
   font-weight: 500;
   text-decoration: inherit;
+  color:orchid;
 }
 
 a:hover {
@@ -36,7 +37,19 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+ul{
+  font-family: 'Cutive Mono', monospace;
+  text-transform: uppercase;
+  display: flex;
+  margin: .1rem 0;
+  padding:.3rem;
+}
 
+ul li{
+  display: flex;
+  flex-direction:column;
+  text-align: center;
+}
 @media all and (max-width:500px) {
   body{
     font-size: 1.4rem;

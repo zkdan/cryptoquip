@@ -1,3 +1,5 @@
+import {alphabet} from './utils'
+
 interface ILetterContainer{
   letter:string;
   replacement:string;
@@ -9,15 +11,15 @@ const LetterContainer = ({letter, replacement, select, selected, displayOnly}:IL
   return (
     <li 
       onClick={()=>select(letter)} 
-      className={selected ? 'highlight' : 'normal'}>
-      <button 
+      className={selected ? 'letter highlight' : 'letter normal'}>
+      <span 
         tabIndex={-1}
         aria-hidden={replacement === '*'? true : false }
         className={replacement === '*'? 'invisible' : 'visible' } 
-        >{replacement}</button>
+        >{replacement}</span>
       <button
         tabIndex={ displayOnly ? -1 : 0}
-        disabled={letter === '.'}
+        disabled={!alphabet.join('').includes(letter)}
         className={replacement === '*' ? 'active':'inactive'}>{letter}</button>
     </li>
   )
