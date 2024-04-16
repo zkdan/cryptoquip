@@ -18,13 +18,17 @@
   max-width:1220px;
   position: relative;
 }
-.modal-content ul{
-  display: flex;
-  justify-content: center;
+
+.display-letter-container{
+  text-align:center;
+  font-size:2rem;
+  font-weight: bold;
 }
-.letter > *{
-  background: transparent;
-  border: none;
+.display-letter-container p:first-of-type{
+  color:orchid;
+}
+.display-letter-container p {
+  margin: 0;
 }
 
 .close-button {

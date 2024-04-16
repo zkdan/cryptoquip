@@ -163,14 +163,10 @@ function App() {
                   <h2>Cryptoquote</h2>
                   <p>This is a subsitution cypher that, when solved, will reveal some nugget of wisdom from this <a href='https://github.com/lukePeavey/quotable#api-reference-'>quotes API</a>.</p>
                   <p>For example: the letter A in the puzzle might stand for G in the actual quotation.</p>
-                  <ul>
-                  <LetterContainer 
-                                displayOnly={true}
-                                letter={'A'} 
-                                replacement={'G'}
-                                selected={false}
-                                select={()=>{}}/>
-                  </ul>
+                  <div className='display-letter-container'>
+                    <p>G</p>
+                    <p>A</p>
+                  </div>
                   <p>Each letter is replaced by one other letter (ie. if A replaces G, A will not replace any other letter). But when you're solving, you can have a replacement letter in two places.</p>
                   <p>Click a letter in the puzzle to propose a replacement. Click a second time to change your mind.</p>
                 </Modal>

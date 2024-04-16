@@ -1,13 +1,13 @@
 import {alphabet} from '../utils'
 import {memo} from 'react'
+
 interface ILetterContainer{
   letter:string;
   replacement:string;
   select:(value:string) => void;
   selected:boolean;
-  displayOnly?:boolean
 }
-const LetterContainer = memo(({letter, replacement, select, selected, displayOnly}:ILetterContainer) => {
+const LetterContainer = memo(({letter, replacement, select, selected,}:ILetterContainer) => {
   return (
     <li 
       onClick={()=>select(letter)} 
@@ -18,7 +18,6 @@ const LetterContainer = memo(({letter, replacement, select, selected, displayOnl
         className={replacement === '*'? 'invisible' : 'visible' } 
         >{replacement}</span>
       <button
-        tabIndex={ displayOnly ? -1 : 0}
         disabled={!alphabet.join('').includes(letter)}
         className={replacement === '*' ? 'active':'inactive'}>{letter}</button>
     </li>
