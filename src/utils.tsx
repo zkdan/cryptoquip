@@ -75,13 +75,14 @@ const createPairings = (orig:string[], analogues:string[]) =>{
 
 // this creates an array that parallels the unique letters array so we can use indexes to create the cypher
 const createAnalogues = (orig:string[], pool:string[])=>{
+  let localPool = pool;
   // console.log(orig, pool);
   // for each letter from the original set of letters
   const randomLetters =  orig.map((letter:string) => {
     // choose an analogue for that letter from the pool
-    const targetLetter = chooseLetter(letter, pool);
+    const targetLetter = chooseLetter(letter, localPool);
     // update the pool (remove the just-chosen letter)
-    pool = exciseLetter(targetLetter, pool);
+    localPool = exciseLetter(targetLetter,  localPool);
     // return the letter that is now paired with the original letter
     return targetLetter
   });
