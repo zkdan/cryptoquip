@@ -66,10 +66,20 @@ function App() {
         setAuthor(oldInfo.author)
       }
       } else {
-        fetch('https://api.quotable.io/random?maxLength=38')
+        const url = 'https://famous-quotes4.p.rapidapi.com/random?category=poetry&count=1';
+        const options = {
+          method: 'GET',
+          headers: {
+            'x-rapidapi-key': '0ee54db2bemsh97b08b63ffcee59p1d80b1jsn1ea7502a2cf5',
+            'x-rapidapi-host': 'famous-quotes4.p.rapidapi.com'
+          }
+        };
+        fetch(url, options)
         .then(res =>res.json())
         .then(res => {
-          const quip = createCypher(res.content);
+          res = res[0]
+          
+          const quip = createCypher(res.text);
           setAuthor(res.author)
           setQuip(quip[0]);
           setQuipKey(quip[1]);
@@ -86,11 +96,14 @@ function App() {
   const check = useCallback(() => {
     const proposed = JSON.stringify(Object.values(state))
     const keysMatch = JSON.stringify(proposed) === JSON.stringify(quipKey);
+    console.log(proposed, keysMatch);
+    
     if(keysMatch){
       setSolved(true)
       setHintCounter(3);
     }
   }, [quipKey, state])
+
 
   const selectQuipLetter = useCallback((value:string) => {
       if(quipLetter === value){
@@ -157,11 +170,10 @@ function App() {
   // for confetti package
   const {width, height} = useWindowSize();
   const confetti = solved ? <Confetti height={height} width={width} initialVelocityX={10} initialVelocityY={10} friction={1} wind={0} gravity={.25} numberOfPieces={120} recycle={false} colors={colors} /> : <></>
-  
 
   const instructions = <Modal close={closeModal}>
                   <h2>Cryptoquote</h2>
-                  <p>This is a subsitution cypher that, when solved, will reveal some nugget of wisdom from this <a href='https://github.com/lukePeavey/quotable#api-reference-'>quotes API</a>.</p>
+                  <p>This is a subsitution cypher that, when solved, will reveal some nugget of wisdom from this <a href='https://rapidapi.com/saicoder/api/famous-quotes4'>quotes API</a>.</p>
                   <p>For example: the letter A in the puzzle might stand for G in the actual quotation.</p>
                   <div className='display-letter-container'>
                     <p>G</p>
@@ -207,7 +219,7 @@ function App() {
       />
       <div className='button-container game-actions'>
         <button onClick={reset}>Clear all</button>
-        <button onClick={getHint} disabled={hintCounter===3}>Hint</button>
+        <button onClick={getHint} disabled={hintCounter>2}>Hint</button>
         <button onClick={solve} disabled={solved} >Give up</button>
         <button onClick={() => setModal(true)}>Instructions</button>
       </div>
