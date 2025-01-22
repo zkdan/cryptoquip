@@ -48,8 +48,6 @@ function reducer(state: IAlphabet, action: IAction) {
     return {
       ...updatedState,
     }
-
-
   }
 
   if (action.type === 'clear') {
@@ -87,8 +85,7 @@ function App() {
           'x-rapidapi-host': 'famous-quotes4.p.rapidapi.com'
         }
       };
-      console.log(import.meta.env.VITE_API_KEY);
-      
+
       fetch(url, options)
         .then(res => res.json())
         .then(res => {
