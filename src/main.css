@@ -4,15 +4,13 @@ html{
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  margin: 0 auto;
-  overflow-x:hidden ;
 } 
 body {
   margin: 0;
   position: relative;
 } 
 main{
-  padding:4% 6% 0 4%;
+  padding:4% 4% 0 4%;
 }
 h1{
   font-size: 1rem;
@@ -28,6 +26,7 @@ button{
 button:disabled{
   opacity: .5;
 }
+
 button:disabled:hover {
   border: transparent;
   cursor:not-allowed;

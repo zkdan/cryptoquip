@@ -40,7 +40,7 @@ const createCypher = (phrase:string):[string[][], IAlphabet] =>{
   const arrayedPhrase = phrase.toLowerCase().split('');
   // find all unique letters so we can assign them analogues
   const uniqueLetters = Array.from(new Set(arrayedPhrase)).filter(item => alphabet.includes(item));
-  // analogs is an array of stings, use the unique letters and the alphabet array to make pairings say, a = k
+  // analogues is an array of stings, use the unique letters and the alphabet array to make pairings say, a = k
   const analogues:IStringArr = createAnalogues(uniqueLetters, alphabet);
 
   // for each word in the phrase, 
