@@ -12,8 +12,8 @@ const colors= [
 ]
 
 interface IAction{
-  type: 'hint' | 'create_pair'| 'clear' | 'solve';  
-  quipLetter?:string;
+  type: 'hint' | 'create_pair'| 'clear' | 'solve' | 'remove_letter';  
+  quipLetter:string;
   target?:string;
   puzzleKey?:IStringArr;
 }
@@ -37,6 +37,16 @@ function reducer(state:IAlphabet, action:IAction){
   if(action.type === 'solve'){
     if(action.puzzleKey){
       return invert(action.puzzleKey)
+    }
+  }
+  if(action.type === 'remove_letter'){
+    const updatedState = {...state}
+
+    if(action.quipLetter){
+      delete updatedState[action.quipLetter] 
+    }
+    return {
+      ...updatedState,
     }
   }
   
@@ -94,43 +104,49 @@ function App() {
   }, [])
 
   const check = useCallback(() => {
-    const proposed = JSON.stringify(Object.values(state))
-    const keysMatch = JSON.stringify(proposed) === JSON.stringify(quipKey);
-    console.log(proposed, keysMatch);
+    const proposed = Object.values(state).toString()
+    const keysMatch = proposed === Object.keys(quipKey).toString();
+      
+    console.log(Object.values(state), Object.keys(quipKey));
+    console.log(keysMatch);
     
-    if(keysMatch){
+    if(keysMatch){      
       setSolved(true)
       setHintCounter(3);
     }
   }, [quipKey, state])
 
 
-  const selectQuipLetter = useCallback((value:string) => {
+  const selectQuipLetter = (value:string) => {
+    
       if(quipLetter === value){
         setQuipLetter('');
-      }
-      else {
+      } else {
         setQuipLetter(value);
         check()
       }
-    },[check, quipLetter])
+    }
 
-  const selectAlphabetLetter = useCallback((value:string) => {
+  const selectAlphabetLetter = (value:string) => {
     if(quipLetter === value){
       alert('A letter cannot replace itself.')
-    } else if(quipLetter){
-      // if it's already chosen, toggle it
-      if(value === state[quipLetter]){
-        value = ''
+    } else if (quipLetter){
+        // if it's already chosen, toggle it
+        if(value === state[quipLetter]){          
+          dispatch({
+            type:'remove_letter', 
+            quipLetter
+          })
+        } else {
+          dispatch({
+            type:'create_pair', 
+            quipLetter, 
+            target:value
+          })
+        }
       }
       check()
-      dispatch({
-        type:'create_pair', 
-        quipLetter, 
-        target:value
-      })
     }
-  },[quipLetter,state, check])
 
   const reset = useCallback(() => {
     dispatch({type:'clear'})
@@ -169,7 +185,7 @@ function App() {
 
   // for confetti package
   const {width, height} = useWindowSize();
-  const confetti = solved ? <Confetti height={height} width={width} initialVelocityX={10} initialVelocityY={10} friction={1} wind={0} gravity={.25} numberOfPieces={120} recycle={false} colors={colors} /> : <></>
+  const confetti = solved ? <Confetti height={height - 10} width={width} initialVelocityX={10} initialVelocityY={10} friction={1} wind={0} gravity={.25} numberOfPieces={420} recycle={false} colors={colors} /> : null 
 
   const instructions = <Modal close={closeModal}>
                   <h2>Cryptoquote</h2>
@@ -192,8 +208,8 @@ function App() {
     <main 
     onKeyDown={checkKey}
     >
+      {confetti}
       <h1>Cryptoquote</h1>
-    {confetti}
     { modal ? instructions : <></>}
       <ul className='quip'> 
       {quip.map((word,i)=>{
