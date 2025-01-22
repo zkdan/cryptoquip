@@ -1,5 +1,5 @@
 # Cryptoquotes
-An NYT-inspired word game that allows players to solve a monoalphabetic substitution cypher to reveal a quote from the <a href="https://github.com/lukePeavey/quotable#quotable">Quotable API</a>.
+An NYT-inspired word game that allows players to solve a monoalphabetic substitution cypher to reveal a quote from <a href="https://rapidapi.com/saicoder/api/famous-quotes4/playground/apiendpoint_93c428d5-e63b-42d5-bd90-11c8d0f0e2da"> this quotes API</a>.
 
 ## To do
 - Pop animation on change letter focus
@@ -8,8 +8,8 @@ An NYT-inspired word game that allows players to solve a monoalphabetic substitu
 - Refit styles for mobile
 - Better error handling (same letter chosen)
 - Keyboard navigation (keyboard branch)
-- Click off to deselect quip letter
-- localStorage/cookies for one quip a day per user
+- Click off/escape to deselect quip letter
+- ~~localStorage/cookies for one quip a day per user~~
 - ~~Alert for win~~
 - ~~Esc to escape modal~~
 - ~~Letters tabbable~~
