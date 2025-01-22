@@ -42,12 +42,14 @@ function reducer(state: IAlphabet, action: IAction) {
   if (action.type === 'remove_letter') {
     const updatedState = { ...state }
 
-    if (action.quipLetter) {
-      delete updatedState[action.quipLetter]
+    if (action.quipLetter && action.quipLetter in updatedState) {
+      delete updatedState[action.quipLetter as keyof typeof updatedState]
     }
     return {
       ...updatedState,
     }
+
+
   }
 
   if (action.type === 'clear') {
@@ -81,10 +83,12 @@ function App() {
       const options = {
         method: 'GET',
         headers: {
-          'x-rapidapi-key': '0ee54db2bemsh97b08b63ffcee59p1d80b1jsn1ea7502a2cf5',
+          'x-rapidapi-key': import.meta.env.VITE_API_KEY,
           'x-rapidapi-host': 'famous-quotes4.p.rapidapi.com'
         }
       };
+      console.log(import.meta.env.VITE_API_KEY);
+      
       fetch(url, options)
         .then(res => res.json())
         .then(res => {
