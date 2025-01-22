@@ -8,8 +8,8 @@ An NYT-inspired word game that allows players to solve a monoalphabetic substitu
 - Refit styles for mobile
 - Better error handling (same letter chosen)
 - Keyboard navigation (keyboard branch)
-- Click off to deselect quip letter
-- localStorage/cookies for one quip a day per user
+- Click off/escape to deselect quip letter
+- ~~localStorage/cookies for one quip a day per user~~
 - ~~Alert for win~~
 - ~~Esc to escape modal~~
 - ~~Letters tabbable~~
